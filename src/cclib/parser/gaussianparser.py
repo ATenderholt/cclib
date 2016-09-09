@@ -1729,6 +1729,13 @@ class Gaussian(logfileparser.Logfile):
                 self.polarizabilities.append(polarizability)
 
 
+    @logfileparser.parse_attribute(lambda x: x.find("good") > 0,
+            "New attribute", "newattr")
+    def parsing_test(self, line, inputfile):
+        """Parses newattr."""
+
+        print(line)
+
 
 if __name__ == "__main__":
     import doctest, gaussianparser, sys

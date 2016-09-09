@@ -17,6 +17,7 @@ import os
 import random
 import sys
 import zipfile
+from functools import wraps
 
 import numpy
 
@@ -171,6 +172,40 @@ def openlogfile(filename):
             fileobject = myFileinputFile(filename)
 
         return fileobject
+
+
+def parse_attribute(predicate, message, attribute):
+    """To be used as a function decorator in a parser class.
+
+    predicate -- wrapped function is only called if this passes
+    message   -- used for progress, if available
+    attribute -- used for keeping track of which attributes are supported
+    """
+
+    def decorator(func):
+        """Needed because the main decorator takes arguments."""
+
+        func.decorator = "parse_attribute"
+        func.attributes = []
+        if attribute is list:
+            func.attributes.extend(attribute)
+        else:
+            func.attributes.append(attribute)
+
+        def empty(*args, **kwds):
+            pass
+
+        @wraps(func)
+        def wrapper(*args, **kwds):
+            args[0].updateprogress(args[2], message, args[0].fupdate)
+            if predicate(args[1]):
+                return func(*args, **kwds)
+            else:
+                return empty(*args, **kwds)
+
+        return wrapper
+
+    return decorator
 
 
 class Logfile(object):
@@ -466,6 +501,16 @@ class Logfile(object):
         return lines
 
     skip_line = lambda self, inputfile, expected: self.skip_lines(inputfile, [expected])
+
+    @classmethod
+    def get_supported_attributes(cls):
+        supported = {}
+        for func in cls.__dict__.values():
+            if callable(func) and hasattr(func, "__wrapped__"):
+                attrs = func.__wrapped__.attributes
+                for attr in attrs:
+                    supported[attr] = func
+        return supported
 
 
 if __name__ == "__main__":
