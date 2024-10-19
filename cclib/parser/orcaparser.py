@@ -1575,8 +1575,10 @@ Dispersion correction           -0.016199959
                         self.set_attribute("etenergies", etenergies)
 
                     # Determine if these energies are same as those previously parsed.
+                    # Orca 6 changed the order, and seems to put triplet excitations
+                    # in the energy order w/ 0 intensity instead of at the end
                     elif len(etenergies) == len(self.etenergies) and numpy.allclose(
-                        etenergies, self.etenergies
+                        numpy.sort(etenergies), numpy.sort(self.etenergies)
                     ):
                         pass
 
