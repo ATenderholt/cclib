@@ -6,7 +6,7 @@
  end
 
 %output
- printlevel normal
+ printlevel large
  print[ p_mos ] 1
  print[ p_overlap ] 1
  end 
