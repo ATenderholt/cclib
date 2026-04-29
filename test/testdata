@@ -456,6 +456,7 @@ TD        Jaguar      JaguarTDDFTTest       basicJaguar8.3        dvb_td.out
 TD        NWChem      GenericTDTest         basicNWChem7.0        dvb_td.out
 TD        ORCA        OrcaTDDFTTest         basicORCA5.0          dvb_td.out
 TD        ORCA        OrcaTDDFTTest         basicORCA6.0          dvb_td.out
+TD        ORCA        OrcaTDDFTTest         basicORCA6.1          dvb_td.out
 TD        ORCA        OrcaROCISTest         basicORCA5.0          dvb_rocis.out
 TD        ORCA        Orca6ROCISTest        basicORCA6.0          dvb_rocis.out
 TD        ORCA        OrcaADC2Test          basicORCA5.0          dvb_adc2.log
